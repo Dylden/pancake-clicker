@@ -19,3 +19,8 @@ section{
 #scoreBox{
     display: flex;
 }
+
+.clicked{
+    transform: scale(0.9) rotate(90deg);
+    transition: 0.1s ease-in-out;
+}

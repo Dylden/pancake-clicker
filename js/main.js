@@ -9,6 +9,8 @@ function scoreIncrease(){
 }
 
 pancake.addEventListener('click', () => {
+    pancake.classList.add('clicked');
+    setTimeout(() => pancake.classList.remove('clicked'), 200);
     scoreIncrease();
 
 })
