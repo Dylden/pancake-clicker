@@ -9,17 +9,29 @@ const upgrades = [
     {
         name: 'Internet',
         description : 'Use internet to see recipes of pancakes. Multiply the production x2',
-        price: 100,
+        price: 50,
         multiplier: 2,
         bought: false
     },
+    {
+        name: 'Better tools',
+        description : 'Better tools, better pancakes. Production x2',
+        price: 200,
+        multiplier: 2,
+        bought: false 
+    }
 ]
 
+let upgradesState = JSON.parse(localStorage.getItem('upgradesState')) || [];
+
+upgrades.forEach((upgrade, index) => {
+    if (upgradesState[index] && upgradesState[index].bought) {
+        upgrades[index].bought = true
+    }
+})
 
 let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
 let multiplier = localStorage.getItem('multiplier') ? parseFloat(localStorage.getItem('multiplier')) : 1;
-
-
 
 scoreDisplay.textContent = score;
 
@@ -35,6 +47,11 @@ if (upgradeSection){
     
         const button = document.createElement('button')
         button.textContent = `Learn for ${upgrade.price} pancakes`;
+
+        if(upgrade.bought) {
+            button.disabled = true;
+            button.textContent = "Learned";
+        }
     
         button.addEventListener('click', () => buyUpgrade(index))
     
@@ -68,6 +85,10 @@ function buyUpgrade(index){
         localStorage.setItem('score', score);
         localStorage.setItem('multiplier', multiplier);
         upgrades[index].bought = true;
+
+        upgrades[index].bought = true;
+        upgradesState[index] = { bought: true};
+        localStorage.setItem('upgradesState', JSON.stringify(upgradesState));
 
         scoreDisplay.textContent = score;
 
@@ -112,4 +133,6 @@ resetButton.addEventListener('click', () => {
 
     alert("Progress reset successfully !");
 
-})
+    localStorage.setItem('upgradesState', JSON.stringify(upgradesState));
+
+});
