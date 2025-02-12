@@ -1,0 +1,21 @@
+img{
+    width: 100%;
+}
+
+h1{
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+section{
+    display: flex;
+    justify-content: center;
+}
+
+#pancake{
+    width: 20%;
+}
+
+#scoreBox{
+    display: flex;
+}
