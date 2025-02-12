@@ -8,17 +8,45 @@
 
 </head>
 <body>
-    <h1>Pancake Clicker</h1>
+    <header>
+        <h1>Pancake Clicker</h1>
+    </header>
 
-    <section>
-        <div id="pancake"><img src="assets/img/pancake.jpg" alt="Pancake"></div>
-    </section>
+    <main>
+        <section id="upgradesSection">
+            <h2>Upgrades</h2>
+            <ul>
+                <li>
+                    <h3>Internet</h3>
+                    <span>Use internet to see recipes of pancakes. Multiply the production x2</span>
+                    <button id="upgrade1">Learn for 100 pancakes</button>
+                </li>
+            </ul>
+        </section>
 
-    <section>
-        <div id="scoreBox"><h2>Amount :</h2><h2 id="score">0</h2></div>
-    </section>
+        <section id="pancakeClickerSection">
+            <div id="pancake"><img src="assets/img/pancake.jpg" alt="Pancake"></div>
+            <div id="scoreBox"><h2>Amount :</h2><h2 id="score"></h2></div>
+        </section>
+    
+
+    
+        <section id="internetSection">
+            <h2>Internet</h2>
+    
+            <ul>
+                <li>
+                    <h3>Create an micro-corporation</h3>
+                    <span>Start your business !</span>
+                    <button>Create for 300 pancakes</button>
+                </li>
+            </ul>
+        </section>
+    
+    </main>
 
     <script src="js/main.js"></script>
+
 </body>
 
 </html>
