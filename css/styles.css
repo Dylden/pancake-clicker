@@ -1,23 +1,55 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f4f7fa;
+    color: #333;
+}
+
+header{
+    height: 5vh;
+}
+
 img{
     width: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+img:hover{
+    transform: scale(1.05);
 }
 
 main{
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    gap: 5%;
 }
 
 h1{
     text-align: center;
     margin-bottom: 5%;
+    font-size: 20px;
 }
 
 #pancake{
-    width: 30%;
+    width: 15%;
 }
 
 #scoreBox{
     display: flex;
+    justify-content: center;    
+    gap: 15px;
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: bold;
 }
 
 .clicked{
@@ -27,25 +59,65 @@ h1{
 
 #pancakeClickerSection{
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+
 }
 
 #upgradesSection{
     display: flex;
     flex-direction: column;
-    margin-right: 15%;
-}
+    border-radius: 15px;
+    padding: 20px;}
 
 #internetSection{
     display: flex;
     flex-direction: column;
+    border-radius: 15px;
+    padding: 20px;
 }
 
 li{
     list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+
+#upgradesContainer{
+    display: flex;
+    justify-content: space-between;
+}
+
+button{
+    padding: 8px 10px;
+    background-color: rgb(255, 189, 104);
+    border-radius: 10px;
+    border: none;
+}
+
+button:hover{
+    transform: scale(1.05);
+}
+button:disabled{
+    background-color: #9f9e9e;
+    color: #f4f7fa;
+    cursor: not-allowed;
+}
+
+#settings{
+    text-align: center;
 }
 
 footer{
-    margin-top: 100px;
     text-align: center;
+    margin-top: auto;
+    padding: 10px;
 }

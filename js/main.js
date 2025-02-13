@@ -1,14 +1,15 @@
+//VARIABLES
 const pancake = document.getElementById("pancake");
 const scoreDisplay = document.getElementById("score");
-// const upgradeButton = document.getElementById("upgrade1")
 const upgradeSection = document.getElementById('upgradesSection');
+const upgradesInternetSection = document.getElementById('upgradesInternetSection')
 const resetButton = document.getElementById('resetButton');
 
 //UPGRADES
 const upgrades = [
     {
         name: 'Internet',
-        description : 'Use internet to see recipes of pancakes. Multiply the production x2',
+        description: 'Use internet to see recipes of pancakes. Multiply the production x2',
         price: 50,
         multiplier: 2,
         bought: false
@@ -22,7 +23,21 @@ const upgrades = [
     }
 ]
 
+const upgradesInternet = [
+    {
+        name: 'Create a micro-corporation',
+        description: 'Start your business !',
+        price: 300,
+        multiplier: 1,
+        bought: false
+    }
+]
+
 let upgradesState = JSON.parse(localStorage.getItem('upgradesState')) || [];
+if (upgradesState.length !== upgrades.length) {
+    upgradesState = upgrades.map(upg => ({ bought: upg.bought}));
+    localStorage.setItem('upgradesState', JSON.stringify(upgradesState));
+}
 
 upgrades.forEach((upgrade, index) => {
     if (upgradesState[index] && upgradesState[index].bought) {
@@ -62,7 +77,7 @@ if (upgradeSection){
         upgradeSection.appendChild(upgradeItem)
     })
 } else {
-    console.warn("Attion : l'élément #upgradesSection n'existe pas.")
+    console.warn("Attention : l'élément #upgradesSection n'existe pas.")
 }
 
 
@@ -102,8 +117,6 @@ function buyUpgrade(index){
     }
 }
 
-//Click on upgrade
-// upgradeButton.addEventListener('click', () => buyUpgrade(0));
 
 //Click on pancake
 pancake.addEventListener('click', () => {
@@ -113,8 +126,7 @@ pancake.addEventListener('click', () => {
 
 })
 
-//Reset du localStorage
-
+//Reset localStorage
 resetButton.addEventListener('click', () => {
     localStorage.clear();
 
