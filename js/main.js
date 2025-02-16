@@ -1,6 +1,7 @@
 //VARIABLES
-const pancake = document.getElementById("pancake");
-const scoreDisplay = document.getElementById("score");
+const pancake = document.getElementById('pancake');
+const scoreDisplay = document.getElementById('score');
+const totalScoreDisplay = document.getElementById('totalScore')
 const upgradeSection = document.getElementById('upgradesSection');
 const upgradesInternetSection = document.getElementById('internetSection')
 const resetButton = document.getElementById('resetButton');
@@ -34,9 +35,11 @@ const upgradesInternet = [
 ]
 
 let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
+let totalScore = localStorage.getItem('totalScore') ? parseInt(localStorage.getItem('totalScore')) : 0
 let multiplier = localStorage.getItem('multiplier') ? parseFloat(localStorage.getItem('multiplier')) : 1;
 
 scoreDisplay.textContent = score;
+totalScoreDisplay.textContent = totalScore;
 
 //upgradesInternetState
 
@@ -127,9 +130,15 @@ if (upgradeSection){
 }
 
 function scoreIncrease(){
+    //Actual amount of pancakes
     score += multiplier;
     scoreDisplay.textContent = score;
     localStorage.setItem('score', score)
+
+    //Total of pancakes made
+    totalScore += multiplier;
+    totalScoreDisplay.textContent = totalScore
+    localStorage.setItem('totalScore', totalScore)
 
 }
 
@@ -200,11 +209,6 @@ pancake.addEventListener('click', () => {
 //Reset localStorage
 resetButton.addEventListener('click', () => {
     localStorage.clear();
-
-
-    location.reload();
-
     alert("Progress reset successfully !");
-
-
+    location.reload();
 });
