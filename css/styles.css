@@ -52,6 +52,14 @@ h1{
     font-weight: bold;
 }
 
+#totalScoreBox{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 15px;
+    font-style: italic;
+}
+
 .clicked{
     transform: scale(0.9) rotate(90deg);
     transition: 0.1s ease-in-out;

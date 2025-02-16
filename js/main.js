@@ -26,17 +26,26 @@ const upgrades = [
 
 const upgradesInternet = [
     {
-        name: 'Create a micro-corporation',
+        name: 'Create a micro-business',
         description: 'Start your business !',
         price: 300,
         multiplier: 1,
+        bought: false
+    },
+    {
+        name: 'Hire an employee',
+        description: 'Let\'s have some help !',
+        price: 500,
+        multiplier: 1,
+        pancakesPerSecond: 1,
         bought: false
     }
 ]
 
 let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
-let totalScore = localStorage.getItem('totalScore') ? parseInt(localStorage.getItem('totalScore')) : 0
+let totalScore = localStorage.getItem('totalScore') ? parseInt(localStorage.getItem('totalScore')) : 0;
 let multiplier = localStorage.getItem('multiplier') ? parseFloat(localStorage.getItem('multiplier')) : 1;
+let pancakesPerSecond = localStorage.getItem('pancakesPerSecond') ? parseFloat(localStorage.getItem('pancakesPerSecond')) : 0;
 
 scoreDisplay.textContent = score;
 totalScoreDisplay.textContent = totalScore;
@@ -170,6 +179,18 @@ function buyUpgrade(index){
     }
 }
 
+let pancakeInterval = null;
+
+if (pancakesPerSecond > 0) {
+    startPancakePerSecInterval();
+}
+
+function startPancakePerSecInterval(){
+    if(pancakeInterval === null){
+        setInterval(increasePancakesPerSecond, 1000);
+    }
+}
+
 //Buy an upgrade on internet
 
 function buyUpgradeInternet(index){
@@ -178,6 +199,15 @@ function buyUpgradeInternet(index){
     if (score >= upgrade.price && !upgrade.bought){
         score -= upgrade.price;
         multiplier *= upgrade.multiplier;
+
+        if(upgrade.pancakesPerSecond){
+            pancakesPerSecond += upgrade.pancakesPerSecond;
+            localStorage.setItem('pancakesPerSecond', pancakesPerSecond)
+
+            if(pancakesPerSecond > 0){
+                startPancakePerSecInterval();
+            }
+        }
 
         localStorage.setItem('score', score);
         localStorage.setItem('multiplier', multiplier);
@@ -197,6 +227,20 @@ function buyUpgradeInternet(index){
         alert("You don't have enough pancakes !")
     }
 }
+
+function increasePancakesPerSecond(){
+    score += pancakesPerSecond;
+    totalScore += pancakesPerSecond;
+
+    scoreDisplay.textContent = score;
+    totalScoreDisplay.textContent = totalScore;
+
+    localStorage.setItem('score', score);
+    localStorage.setItem('totalScore', totalScore);
+
+}
+
+
 
 //Click on pancake
 pancake.addEventListener('click', () => {
