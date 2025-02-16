@@ -69,7 +69,7 @@ if(upgradesInternetSection){
 
         if(upgrade.bought) {
             button.disabled = true;
-            button.textContent = "Purshased";
+            button.textContent = "Purchased";
         }
     
         button.addEventListener('click', () => buyUpgradeInternet(index))
@@ -201,36 +201,10 @@ pancake.addEventListener('click', () => {
 resetButton.addEventListener('click', () => {
     localStorage.clear();
 
-    upgradesState = upgrades.map(() => ({ bought: false }));
-    upgradesInternetState = upgradesInternet.map(() => ({ bought: false }));
 
-    localStorage.setItem('upgradesState', JSON.stringify(upgradesState));
-    localStorage.setItem('upgradesInternetState', JSON.stringify(upgradesInternetState));
-
-    score = 0;
-    multiplier = 1;
-    upgrades.bought = false;
-
-    scoreDisplay.textContent = score;
-
-    upgrades.forEach((upgrade, index) => {
-        upgrade.bought = false;
-        const buttons = document.querySelectorAll('#upgradesSection button');
-        buttons[index].disabled = false;
-        buttons[index].textContent = `Learn for ${upgrade.price} pancakes`;
-    })
-
-    upgradesInternet.forEach((upgrade, index) => {
-        upgrade.bought = false;
-        const buttons = document.querySelectorAll('#internetSection button');
-        buttons[index].disabled = false;
-        buttons[index].textContent = `Learn for ${upgrade.price} pancakes`;
-    })
+    location.reload();
 
     alert("Progress reset successfully !");
-
-    localStorage.setItem('upgradesState', JSON.stringify(upgradesState));
-    localStorage.setItem('upgradesInternetState', JSON.stringify(upgradesInternetState));
 
 
 });
