@@ -2,7 +2,7 @@
 const pancake = document.getElementById("pancake");
 const scoreDisplay = document.getElementById("score");
 const upgradeSection = document.getElementById('upgradesSection');
-const upgradesInternetSection = document.getElementById('upgradesInternetSection')
+const upgradesInternetSection = document.getElementById('internetSection')
 const resetButton = document.getElementById('resetButton');
 
 //UPGRADES
@@ -33,6 +33,57 @@ const upgradesInternet = [
     }
 ]
 
+let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
+let multiplier = localStorage.getItem('multiplier') ? parseFloat(localStorage.getItem('multiplier')) : 1;
+
+scoreDisplay.textContent = score;
+
+//upgradesInternetState
+
+let upgradesInternetState = JSON.parse(localStorage.getItem('upgradesInternetState')) || [];
+if (upgradesInternetState.length !== upgradesInternet.length){
+    upgradesInternetState = upgradesInternet.map(upg => ({bought: upg.bought}));
+    localStorage.setItem('upgradesInternetState', JSON.stringify(upgradesInternetState))
+}
+
+upgradesInternet.forEach((upgrade, index) => { 
+    if (upgradesInternetState[index] && upgradesInternetState[index].bought) {
+        upgradesInternet[index].bought = true;
+    }
+
+}) 
+
+if(upgradesInternetSection){
+    upgradesInternet.forEach((upgrade, index) => {
+
+        const upgradeInternetItem = document.createElement('li');
+    
+        const title = document.createElement('h3');
+        title.textContent = upgrade.name;
+    
+        const description = document.createElement('span');
+        description.textContent = upgrade.description;
+    
+        const button = document.createElement('button')
+        button.textContent = `Learn for ${upgrade.price} pancakes`;
+
+        if(upgrade.bought) {
+            button.disabled = true;
+            button.textContent = "Purshased";
+        }
+    
+        button.addEventListener('click', () => buyUpgradeInternet(index))
+    
+        upgradeInternetItem.appendChild(title);
+        upgradeInternetItem.appendChild(description);
+        upgradeInternetItem.appendChild(button);
+    
+        upgradesInternetSection.appendChild(upgradeInternetItem)
+    })
+}
+
+//upgradesState
+
 let upgradesState = JSON.parse(localStorage.getItem('upgradesState')) || [];
 if (upgradesState.length !== upgrades.length) {
     upgradesState = upgrades.map(upg => ({ bought: upg.bought}));
@@ -44,11 +95,6 @@ upgrades.forEach((upgrade, index) => {
         upgrades[index].bought = true
     }
 })
-
-let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
-let multiplier = localStorage.getItem('multiplier') ? parseFloat(localStorage.getItem('multiplier')) : 1;
-
-scoreDisplay.textContent = score;
 
 if (upgradeSection){
     upgrades.forEach((upgrade, index) => {
@@ -80,7 +126,6 @@ if (upgradeSection){
     console.warn("Attention : l'élément #upgradesSection n'existe pas.")
 }
 
-
 function scoreIncrease(){
     score += multiplier;
     scoreDisplay.textContent = score;
@@ -101,7 +146,6 @@ function buyUpgrade(index){
         localStorage.setItem('multiplier', multiplier);
         upgrades[index].bought = true;
 
-        upgrades[index].bought = true;
         upgradesState[index] = { bought: true};
         localStorage.setItem('upgradesState', JSON.stringify(upgradesState));
 
@@ -117,6 +161,33 @@ function buyUpgrade(index){
     }
 }
 
+//Buy an upgrade on internet
+
+function buyUpgradeInternet(index){
+    let upgrade = upgradesInternet[index];
+
+    if (score >= upgrade.price && !upgrade.bought){
+        score -= upgrade.price;
+        multiplier *= upgrade.multiplier;
+
+        localStorage.setItem('score', score);
+        localStorage.setItem('multiplier', multiplier);
+
+        upgradesInternet[index].bought = true;
+        upgradesInternetState[index] = { bought: true};
+        localStorage.setItem('upgradesInternetState', JSON.stringify(upgradesInternetState));
+
+        scoreDisplay.textContent = score;
+
+       const buttons = document.querySelectorAll('#internetSection button');
+       buttons[index].disabled = true;
+       buttons[index].textContent = "Purchased";
+
+       
+    } else {
+        alert("You don't have enough pancakes !")
+    }
+}
 
 //Click on pancake
 pancake.addEventListener('click', () => {
@@ -130,9 +201,15 @@ pancake.addEventListener('click', () => {
 resetButton.addEventListener('click', () => {
     localStorage.clear();
 
+    upgradesState = upgrades.map(() => ({ bought: false }));
+    upgradesInternetSection = upgradesInternet.map(() => ({ bought: false }));
+
+    localStorage.setItem('upgradesState', JSON.stringify(upgradesState));
+    localStorage.setItem('upgradesInternetState', JSON.stringify(upgradesInternetState));
+
     score = 0;
     multiplier = 1;
-    upgrades = [];
+    upgrades.bought = false;
 
     scoreDisplay.textContent = score;
 
@@ -143,8 +220,17 @@ resetButton.addEventListener('click', () => {
         buttons[index].textContent = `Learn for ${upgrade.price} pancakes`;
     })
 
+    upgradesInternet.forEach((upgrade, index) => {
+        upgrade.bought = false;
+        const buttons = document.querySelectorAll('#upgradesInternetSection button');
+        buttons[index].disabled = false;
+        buttons[index].textContent = `Learn for ${upgrade.price} pancakes`;
+    })
+
     alert("Progress reset successfully !");
 
     localStorage.setItem('upgradesState', JSON.stringify(upgradesState));
+    localStorage.setItem('upgradesInternetState', JSON.stringify(upgradesInternetState));
+
 
 });
