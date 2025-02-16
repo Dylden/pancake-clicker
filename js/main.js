@@ -202,7 +202,7 @@ resetButton.addEventListener('click', () => {
     localStorage.clear();
 
     upgradesState = upgrades.map(() => ({ bought: false }));
-    upgradesInternetSection = upgradesInternet.map(() => ({ bought: false }));
+    upgradesInternetState = upgradesInternet.map(() => ({ bought: false }));
 
     localStorage.setItem('upgradesState', JSON.stringify(upgradesState));
     localStorage.setItem('upgradesInternetState', JSON.stringify(upgradesInternetState));
@@ -222,7 +222,7 @@ resetButton.addEventListener('click', () => {
 
     upgradesInternet.forEach((upgrade, index) => {
         upgrade.bought = false;
-        const buttons = document.querySelectorAll('#upgradesInternetSection button');
+        const buttons = document.querySelectorAll('#internetSection button');
         buttons[index].disabled = false;
         buttons[index].textContent = `Learn for ${upgrade.price} pancakes`;
     })
