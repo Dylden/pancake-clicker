@@ -2,6 +2,7 @@
 const pancake = document.getElementById('pancake');
 const scoreDisplay = document.getElementById('score');
 const totalScoreDisplay = document.getElementById('totalScore')
+const totalPancakesPerSecDisplay = document.getElementById('totalPancakesPerSec')
 const upgradeSection = document.getElementById('upgradesSection');
 const upgradesInternetSection = document.getElementById('internetSection')
 const resetButton = document.getElementById('resetButton');
@@ -49,6 +50,7 @@ let pancakesPerSecond = localStorage.getItem('pancakesPerSecond') ? parseFloat(l
 
 scoreDisplay.textContent = score;
 totalScoreDisplay.textContent = totalScore;
+
 
 //upgradesInternetState
 
@@ -204,6 +206,8 @@ function buyUpgradeInternet(index){
             pancakesPerSecond += upgrade.pancakesPerSecond;
             localStorage.setItem('pancakesPerSecond', pancakesPerSecond)
 
+            totalPancakesPerSecDisplay.textContent = pancakesPerSecond + ' pancakes/sec';
+
             if(pancakesPerSecond > 0){
                 startPancakePerSecInterval();
             }
@@ -234,6 +238,7 @@ function increasePancakesPerSecond(){
 
     scoreDisplay.textContent = score;
     totalScoreDisplay.textContent = totalScore;
+    totalPancakesPerSecDisplay.textContent = pancakesPerSecond + ' pancakes/sec';
 
     localStorage.setItem('score', score);
     localStorage.setItem('totalScore', totalScore);
