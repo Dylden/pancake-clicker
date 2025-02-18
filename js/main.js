@@ -12,15 +12,22 @@ const upgrades = [
     {
         name: 'Internet',
         description: 'Use internet to see recipes of pancakes. Multiply the production x2',
-        price: 50,
+        price: 10,
         multiplier: 2,
         bought: false
     },
     {
         name: 'Better tools',
         description : 'Better tools, better pancakes. Production x2',
+        price: 50,
+        multiplier: 1.5,
+        bought: false 
+    },
+    {
+        name: 'Automatism',
+        description : 'Can make it with eyes closed !',
         price: 100,
-        multiplier: 2,
+        multiplier: 1.5,
         bought: false 
     },
     {
@@ -64,10 +71,10 @@ const upgradesInternet = [
 let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
 let totalScore = localStorage.getItem('totalScore') ? parseInt(localStorage.getItem('totalScore')) : 0;
 let multiplier = localStorage.getItem('multiplier') ? parseFloat(localStorage.getItem('multiplier')) : 1;
-let pancakesPerSecond = localStorage.getItem('pancakesPerSecond') ? parseFloat(localStorage.getItem('pancakesPerSecond')) : 0;
+let pancakesPerSecond = localStorage.getItem('pancakesPerSecond') ? parseFloat(localStorage.getItem('pancakesPerSecond')) : 0.0;
 
 scoreDisplay.textContent = score;
-totalScoreDisplay.textContent = totalScore;
+totalScoreDisplay.textContent = Math.floor(totalScore);
 
 
 //upgradesInternetState
@@ -160,13 +167,13 @@ if (upgradeSection){
 
 function scoreIncrease(){
     //Actual amount of pancakes
-    score += multiplier;
-    scoreDisplay.textContent = score;
+    score += Math.floor(multiplier);
+    scoreDisplay.textContent = Math.floor(score);
     localStorage.setItem('score', score)
 
     //Total of pancakes made
-    totalScore += multiplier;
-    totalScoreDisplay.textContent = totalScore
+    totalScore += Math.floor(multiplier);
+    totalScoreDisplay.textContent = Math.floor(totalScore);
     localStorage.setItem('totalScore', totalScore)
 
 }
@@ -187,7 +194,7 @@ function buyUpgrade(index){
         upgradesState[index] = { bought: true};
         localStorage.setItem('upgradesState', JSON.stringify(upgradesState));
 
-        scoreDisplay.textContent = score;
+        scoreDisplay.textContent = Math.floor(score);
 
        const buttons = document.querySelectorAll('#upgradesSection button');
        buttons[index].disabled = true;
@@ -216,6 +223,11 @@ function startPancakePerSecInterval(){
 function buyUpgradeInternet(index){
     let upgrade = upgradesInternet[index];
 
+    if (index > 0 && !upgradesInternet[0].bought){
+        alert('You need to create your business first !');
+        return;
+    }
+
     if (score >= upgrade.price && (upgrade.cumulable || !upgrade.bought)){
         score -= upgrade.price;
         multiplier *= upgrade.multiplier;
@@ -224,7 +236,7 @@ function buyUpgradeInternet(index){
             pancakesPerSecond += upgrade.pancakesPerSecond;
             localStorage.setItem('pancakesPerSecond', pancakesPerSecond)
 
-            totalPancakesPerSecDisplay.textContent = pancakesPerSecond + ' pancakes/sec';
+            totalPancakesPerSecDisplay.textContent = Math.floor(pancakesPerSecond) + ' pancakes/sec';
 
             if(pancakesPerSecond > 0 && pancakeInterval === null){
                 startPancakePerSecInterval();
@@ -241,7 +253,7 @@ function buyUpgradeInternet(index){
             localStorage.setItem('upgradesInternetState', JSON.stringify(upgradesInternetState));
         }
 
-        scoreDisplay.textContent = score;
+        scoreDisplay.textContent = Math.floor(score);
 
         if(!upgrade.cumulable){
 
@@ -258,12 +270,12 @@ function buyUpgradeInternet(index){
 }
 
 function increasePancakesPerSecond(){
-    score += pancakesPerSecond;
+    score += pancakesPerSecond
     totalScore += pancakesPerSecond;
 
-    scoreDisplay.textContent = score;
-    totalScoreDisplay.textContent = totalScore;
-    totalPancakesPerSecDisplay.textContent = pancakesPerSecond + ' pancakes/sec';
+    scoreDisplay.textContent = Math.floor(score);
+    totalScoreDisplay.textContent = Math.floor(totalScore);
+    totalPancakesPerSecDisplay.textContent = Math.floor(pancakesPerSecond) + ' pancakes/sec';
 
     localStorage.setItem('score', score);
     localStorage.setItem('totalScore', totalScore);
