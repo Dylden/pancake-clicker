@@ -19,10 +19,17 @@ const upgrades = [
     {
         name: 'Better tools',
         description : 'Better tools, better pancakes. Production x2',
-        price: 200,
+        price: 100,
         multiplier: 2,
         bought: false 
-    }
+    },
+    {
+        name: 'Expertise',
+        description : 'New ones are better !',
+        price: 150,
+        multiplier: 1.5,
+        bought: false 
+    },
 ]
 
 const upgradesInternet = [
@@ -31,7 +38,8 @@ const upgradesInternet = [
         description: 'Start your business !',
         price: 300,
         multiplier: 1,
-        bought: false
+        bought: false,
+        cumulable: false
     },
     {
         name: 'Hire an employee',
@@ -39,8 +47,18 @@ const upgradesInternet = [
         price: 500,
         multiplier: 1,
         pancakesPerSecond: 1,
-        bought: false
-    }
+        bought: false,
+        cumulable: true
+    },
+    {
+        name: 'Hire a manager',
+        description: 'Help employees to help you !',
+        price: 1500,
+        multiplier: 1,
+        pancakesPerSecond: 10,
+        bought: false,
+        cumulable: true
+    },
 ]
 
 let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
@@ -183,13 +201,13 @@ function buyUpgrade(index){
 
 let pancakeInterval = null;
 
-if (pancakesPerSecond > 0) {
+if (pancakesPerSecond > 0 && pancakeInterval === null) {
     startPancakePerSecInterval();
 }
 
 function startPancakePerSecInterval(){
     if(pancakeInterval === null){
-        setInterval(increasePancakesPerSecond, 1000);
+        pancakeInterval = setInterval(increasePancakesPerSecond, 1000);
     }
 }
 
@@ -198,7 +216,7 @@ function startPancakePerSecInterval(){
 function buyUpgradeInternet(index){
     let upgrade = upgradesInternet[index];
 
-    if (score >= upgrade.price && !upgrade.bought){
+    if (score >= upgrade.price && (upgrade.cumulable || !upgrade.bought)){
         score -= upgrade.price;
         multiplier *= upgrade.multiplier;
 
@@ -208,7 +226,7 @@ function buyUpgradeInternet(index){
 
             totalPancakesPerSecDisplay.textContent = pancakesPerSecond + ' pancakes/sec';
 
-            if(pancakesPerSecond > 0){
+            if(pancakesPerSecond > 0 && pancakeInterval === null){
                 startPancakePerSecInterval();
             }
         }
@@ -216,15 +234,22 @@ function buyUpgradeInternet(index){
         localStorage.setItem('score', score);
         localStorage.setItem('multiplier', multiplier);
 
-        upgradesInternet[index].bought = true;
-        upgradesInternetState[index] = { bought: true};
-        localStorage.setItem('upgradesInternetState', JSON.stringify(upgradesInternetState));
+        if(!upgrade.cumulable){
+
+            upgradesInternet[index].bought = true;
+            upgradesInternetState[index] = { bought: true};
+            localStorage.setItem('upgradesInternetState', JSON.stringify(upgradesInternetState));
+        }
 
         scoreDisplay.textContent = score;
 
-       const buttons = document.querySelectorAll('#internetSection button');
-       buttons[index].disabled = true;
-       buttons[index].textContent = "Purchased";
+        if(!upgrade.cumulable){
+
+            const buttons = document.querySelectorAll('#internetSection button');
+            buttons[index].disabled = true;
+            buttons[index].textContent = "Purchased";
+        }
+
 
        
     } else {
@@ -244,8 +269,6 @@ function increasePancakesPerSecond(){
     localStorage.setItem('totalScore', totalScore);
 
 }
-
-
 
 //Click on pancake
 pancake.addEventListener('click', () => {
