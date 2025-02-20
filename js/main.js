@@ -287,8 +287,11 @@ pancake.addEventListener('click', () => {
     pancake.classList.add('clicked');
     setTimeout(() => pancake.classList.remove('clicked'), 200);
     scoreIncrease();
+});
 
-})
+pancake.addEventListener('mousedown', function(e) {
+    e.preventDefault();
+});
 
 //Reset localStorage
 resetButton.addEventListener('click', () => {

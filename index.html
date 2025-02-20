@@ -10,38 +10,36 @@
 <body>
     <header>
         <h1>Pancake Clicker</h1>
+        <button id="resetButton">Reset</button>
+
     </header>
 
     <main>
-        <div id="scoreBox"><h2>Amount :</h2><h2 id="score"></h2></div>
-        <div id="totalScoreBox"><h2></h2>Pancakes made : <p id="totalScore"></p></div>
-        <div id="totalPancakesPerSecBox"><p id="totalPancakesPerSec"></p></div>
-
-
         <section id="pancakeClickerSection">
-            <div id="pancake"><img src="assets/img/pancake.png" alt="Pancake"></div>
+            <div id="scoreContainer">
+                <div id="scoreBox"><h2>Amount :</h2><h2 id="score"></h2></div>
+                <div id="totalScoreBox"><h2></h2>Pancakes made : <p id="totalScore"></p></div>
+                <div id="totalPancakesPerSecBox"><p id="totalPancakesPerSec"></p></div>
+            </div>
+
+            <div id="pancakeContainer">
+                <div id="pancake"><img src="assets/img/pancake.png" alt="Pancake"></div>
+            </div>
+
         </section>
 
-
-
-
-    
-
-        <div id="upgradesContainer">
-            <section id="upgradesSection">
+        <section id="storeSection">
+            <div id="upgradesSection">
                 <h2>Upgrades</h2>
                 <ul></ul>
-            </section>
-
-            <section id="internetSection">
+            </div>
+            <div id="internetSection">
                 <h2>Internet</h2>
                 <ul></ul>
-            </section>
-        </div>
-
-        <section id="settings">
-            <button id="resetButton">Reset</button>
+            </div>
         </section>
+
+
     </main>
     <footer>Copyright by Dylden - 2025</footer>
 
